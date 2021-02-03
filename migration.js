@@ -1,11 +1,11 @@
 // Node module imports
-const sqlite3 = require("sqlite3");
+const sqlite3 = require('sqlite3');
 
 // Create new sqlite database
 const db = new sqlite3.Database('./database.sqlite');
 
 // Create artist table
-db.run(`CREATE TABLE IF NOT EXISTS 'Artist' (
+db.run(`CREATE TABLE IF NOT EXISTS Artist (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
     date_of_birth TEXT NOT NULL,
