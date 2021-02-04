@@ -8,6 +8,7 @@ const artistsRouter = express.Router();
 // setup database
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite')
 
+// GET all employed artists
 artistsRouter.get('/', (req, res, next) => {
     db.all('SELECT * FROM Artist WHERE is_currently_employed = 1', (err, rows) => {
         if (err) {
@@ -18,6 +19,7 @@ artistsRouter.get('/', (req, res, next) => {
     });
 });
 
+// Setup artist id param
 artistsRouter.param('artistId', (req, res, next, artistId) => {
     db.get("SELECT * FROM Artist WHERE id = $artistId", {
         $artistId: artistId
@@ -33,8 +35,41 @@ artistsRouter.param('artistId', (req, res, next, artistId) => {
     });
 });
 
+// GET artist by ID
 artistsRouter.get('/:artistId', (req, res, next) => {
     res.status(200).send({artist: req.artist});
+});
+
+// POST new artist
+artistsRouter.post('/', (req, res, next) => {
+    const name = req.body.artist.name;
+    const dateOfBirth = req.body.artist.dateOfBirth;
+    const biography = req.body.artist.biography;
+
+    if(!name || ! dateOfBirth || !biography) {
+        return res.sendStatus(400);
+    }
+
+    const isCurrentlyEmployed = req.body.artist.isCurrentlyEmployed === 0 ? 0 : 1;
+
+    db.run('INSERT INTO Artist (name, date_of_birth, biography, is_currently_employed) VALUES ($name, $dateOfBirth, $biography, $isCurrentlyEmployed)', {
+        $name: name,
+        $dateOfBirth: dateOfBirth,
+        $biography: biography,
+        $isCurrentlyEmployed: isCurrentlyEmployed
+    }, function(err) {
+        if (err) {
+            next(err);
+        } else {
+            db.get(`SELECT * FROM Artist WHERE id = ${this.lastID}`, (err, artist) => {
+                if (err) {
+                    next(err)
+                } else {
+                    res.status(201).json({artist: artist});
+                }
+            });
+        }
+    });
 });
 
 // Export router
