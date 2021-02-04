@@ -13,3 +13,11 @@ db.run(`CREATE TABLE IF NOT EXISTS Artist (
     is_currently_employed INTEGER NOT NULL DEFAULT 1,
     PRIMARY KEY(id)
 )`);
+
+// Create series table
+db.run(`CREATE TABLE IF NOT EXISTS Series (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY(id)
+)`);
