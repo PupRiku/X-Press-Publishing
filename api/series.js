@@ -1,29 +1,17 @@
 // Import node modules
 const express = require('express');
-const sqlite3 = require('sqlite3');
-
-// Import issues router
-const issuesRouter = require('./issues');
 
 // setup api router
 const seriesRouter = express.Router();
 
-// Mount issues router
-seriesRouter.use('/:seriedId/issues', issuesRouter);
+// Import sqlite3
+const sqlite3 = require('sqlite3');
 
 // setup database
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
-// GET all series
-seriesRouter.get('/', (req, res, next) => {
-    db.all('SELECT * FROM Series', (err, series) => {
-        if (err) {
-            next(err);
-        } else {
-            res.status(200).json({series: series});
-        }
-    });
-});
+// Import issues router
+const issuesRouter = require('./issues');
 
 // Setup router param
 seriesRouter.param('seriesId', (req, res, next, seriesId) => {
@@ -37,6 +25,20 @@ seriesRouter.param('seriesId', (req, res, next, seriesId) => {
             next();
         } else {
             res.sendStatus(404);
+        }
+    });
+});
+
+// Mount issues router
+seriesRouter.use('/:seriedId/issues', issuesRouter);
+
+// GET all series
+seriesRouter.get('/', (req, res, next) => {
+    db.all('SELECT * FROM Series', (err, series) => {
+        if (err) {
+            next(err);
+        } else {
+            res.status(200).json({series: series});
         }
     });
 });
