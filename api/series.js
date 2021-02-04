@@ -80,7 +80,7 @@ seriesRouter.put('/:seriesId', (req, res, next) => {
         return res.sendStatus(400);
     }
 
-    db.run('UPDATE Series SET name = $name, $description = description WHERE id = $seriesId', {
+    db.run('UPDATE Series SET name = $name, description = $description WHERE id = $seriesId', {
         $name: name,
         $description: description,
         $seriesId: req.params.seriesId
