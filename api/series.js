@@ -2,8 +2,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3');
 
+// Import issues router
+const issuesRouter = require('./issues');
+
 // setup api router
 const seriesRouter = express.Router();
+
+// Mount issues router
+seriesRouter.use('/:seriedId/issues', issuesRouter);
 
 // setup database
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
