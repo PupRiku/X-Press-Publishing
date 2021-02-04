@@ -33,5 +33,9 @@ artistsRouter.param('artistId', (req, res, next, artistId) => {
     });
 });
 
+artistsRouter.get('/:artistId', (req, res, next) => {
+    res.status(200).send({artist: req.artist});
+});
+
 // Export router
 module.exports = artistsRouter;
