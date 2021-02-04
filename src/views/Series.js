@@ -276,7 +276,7 @@ class Series extends Component {
     const artists = this.state.artists;
     const options = [];
     for (let artistId in artists) {
-      options.push(<option value={artistId}>{artists[artistId]}</option>);
+      options.push(<option key={artists[artistId]} value={artistId}>{artists[artistId]}</option>);
     }
     return options;
   }
@@ -316,13 +316,13 @@ class Series extends Component {
     let saveButton, cancelButton, deleteButton;
 
     if (this.issueHasChanges(issue, issueIndex) && this.issueHasAllRequiredFields(issue)) {
-      saveButton =<a className={'button'} onClick={this.saveIssue.bind(this, issueIndex)}>Save</a>;
+      saveButton = <a className={'button'} onClick={this.saveIssue.bind(this, issueIndex)}>Save</a>;
     } else {
       saveButton = <a className='button inactive'>Save</a>;
     }
 
     if (this.issueHasChanges(issue, issueIndex)) {
-      cancelButton =<a className={'button'} onClick={this.cancelIssueEdit.bind(this, issueIndex)}>Cancel</a>
+      cancelButton = <a className={'button'} onClick={this.cancelIssueEdit.bind(this, issueIndex)}>Cancel</a>
     } else {
       cancelButton = <a className='button inactive'>Cancel</a>;
     }
