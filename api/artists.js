@@ -72,6 +72,7 @@ artistsRouter.post('/', (req, res, next) => {
     });
 });
 
+// PUT an update for an artist by ID
 artistsRouter.put('/:artistId', (req, res, next) => {
     const name = req.body.artist.name;
     const dateOfBirth = req.body.artist.dateOfBirth;
@@ -87,6 +88,25 @@ artistsRouter.put('/:artistId', (req, res, next) => {
         $dateOfBirth: dateOfBirth,
         $biography: biography,
         $isCurrentlyEmployed: isCurrentlyEmployed,
+        $artistId: req.params.artistId
+    }, err => {
+        if (err) {
+            next(err);
+        } else {
+            db.get(`SELECT * FROM Artist WHERE id = ${req.params.artistId}`, (error, artist) => {
+                if (error) {
+                    next(error);
+                } else {
+                    res.status(200).json({artist: artist});
+                }
+            });
+        }
+    });
+});
+
+// DELETE an artist from DB
+artistsRouter.delete('/:artistId', (req, res, next) => {
+    db.run('UPDATE Artist SET is_currently_employed = 0 WHERE id = $artistId', {
         $artistId: req.params.artistId
     }, err => {
         if (err) {
