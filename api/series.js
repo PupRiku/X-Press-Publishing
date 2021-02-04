@@ -35,5 +35,10 @@ seriesRouter.param('seriesId', (req, res, next, seriesId) => {
     });
 });
 
+// GET series by id
+seriesRouter.get('/:seriesId', (req, res, next) => {
+    res.status(200).send({series: req.series});
+});
+
 // Export router
 module.exports = seriesRouter;
