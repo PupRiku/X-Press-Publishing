@@ -18,5 +18,20 @@ artistsRouter.get('/', (req, res, next) => {
     });
 });
 
+artistsRouter.param('artistId', (req, res, next, artistId) => {
+    db.get("SELECT * FROM Artist WHERE id = $artistId", {
+        $artistId: artistId
+    }, (err, artist) => {
+        if (err) {
+            next(err);
+        } else if (artist) {
+            req.artist = artist;
+            next();
+        } else {
+            res.sendStatus(404);
+        }
+    });
+});
+
 // Export router
 module.exports = artistsRouter;
