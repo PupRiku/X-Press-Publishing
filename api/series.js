@@ -19,5 +19,21 @@ seriesRouter.get('/', (req, res, next) => {
     });
 });
 
+// Setup router param
+seriesRouter.param('seriesId', (req, res, next, seriesId) => {
+    db.get("SELECT * FROM Series WHERE id = $seriesId", {
+        $seriesId: seriesId
+    }, (err, series) => {
+        if (err) {
+            next(err);
+        } else if (series) {
+            req.series = series;
+            next();
+        } else {
+            res.sendStatus(404);
+        }
+    });
+});
+
 // Export router
 module.exports = seriesRouter;
