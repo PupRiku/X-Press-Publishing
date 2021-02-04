@@ -38,8 +38,8 @@ seriesRouter.get('/:seriesId', (req, res, next) => {
 });
 
 seriesRouter.post('/', (req, res, next) => {
-  const name = req.body.series.name,
-        description = req.body.series.description;
+  const name = req.body.series.name;
+  const description = req.body.series.description;
   if (!name || !description) {
     return res.sendStatus(400);
   }
@@ -63,8 +63,8 @@ seriesRouter.post('/', (req, res, next) => {
 });
 
 seriesRouter.put('/:seriesId', (req, res, next) => {
-  const name = req.body.series.name,
-        description = req.body.series.description;
+  const name = req.body.series.name;
+  const description = req.body.series.description;
   if (!name || !description) {
     return res.sendStatus(400);
   }
