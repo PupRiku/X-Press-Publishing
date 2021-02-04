@@ -110,5 +110,16 @@ issuesRouter.put('/:issueId', (req, res, next) => {
     });  
 });
 
+// DELETE issue
+issuesRouter.delete('/:issueId', (req, res, next) => {
+    db.run(`DELETE FROM Issue WHERE id = ${req.params.issueId}`, error => {
+        if (error) {
+            next(error);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
 // Export router
 module.exports = issuesRouter;
