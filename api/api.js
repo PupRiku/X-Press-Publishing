@@ -1,14 +1,16 @@
 // Import node modules
 const express = require('express');
 
-// Import artists router
+// Import routers
 const artistsRouter = require('./artists');
+const seriesRouter = require('./series');
 
 // setup api router
 const apiRouter = express.Router();
 
-// Setup artists route
+// Setup routes
 apiRouter.use('/artists', artistsRouter);
+apiRouter.use('/series', seriesRouter);
 
 // Export router
 module.exports = apiRouter;
